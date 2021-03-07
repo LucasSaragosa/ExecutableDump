@@ -7,6 +7,9 @@ Simply start the program using the command line arguments explained below, or do
 
 ##### Usage: exedump.exe -i "input file" -o "output file" [-v / -crc / -r] 
 
-Use the -v option to be verbose</br>
-Use the -crc option to dump the CRCs of the lowercase strings along with the dumped strings in the output file</br>
-Use the -r option to enable experimental dumping of only the RTTI decorated class and struct names. (Uses dbghelp.dll, but if not available attempts without)
+-c : Flag to dump the CRCs with it (lowercased version)</br>
+-v : Flag to be verbose</br>
+-r : Dump only the classes and structs (RTTI deciphers), experimental!</br>
+-i <input file> : Specify the input file (max 200 characters)</br>
+-o <output file> : Specify the output file (max 200 characters)</br>
+-a : Only dump alpha numerical strings</br>
