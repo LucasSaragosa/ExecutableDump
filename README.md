@@ -1,5 +1,5 @@
 # ExecutableDump
-Small program to dump all strings inside an executable for windows (or any file.)
+Small program to dump all (null terminated) strings inside an executable for windows (or any file.)
 
 ### How to use this program
 
