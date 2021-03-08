@@ -1,4 +1,4 @@
-// ExecutableDump.cpp : Little program to dump all strings in a .exe by lucas saragosa :D.
+// ExecutableDump.cpp : Little program to dump all strings in a .exe by lucas saragosa :D v1.1.5
 
 #include <iostream>
 #include <fstream>
@@ -21,15 +21,23 @@ uint64_t crc(const char* str) {
     uint64_t crc = 0;
     int len = strlen(str);
     for (int i = 0; i < len; i++) {
-        crc = crc_tab[((int)(crc >> 56) ^ tolower(str[i])) & 0xFF] ^ (crc << 8);
+        crc = crc_tab[((int)(crc >> 56) ^ str[i]) & 0xFF] ^ (crc << 8);
     }
     return crc;
+}
+
+uint64_t crctt(const char* str) {
+    char* dup = _strdup(str);
+    _strlwr(dup);
+    uint64_t ret = crc(dup);
+    delete[] dup;
+    return ret;
 }
 
 #define DOCRC(str) \
 if (crc) {\
 char* buf = new char[17];\
-sprintf(buf, "%-16llx", crc(str.c_str()));\
+sprintf(buf, "%-16llx", crctt(str.c_str()));\
 ostream << buf << "  <-->  ";\
 if (verbose)std::cout << "Calculated (lwr) CRC64 as " << buf << std::endl;\
 delete[] buf;\
@@ -156,7 +164,7 @@ int main(int argn,char** argv)
         int token = stream.get();
         if (!token) {
             if (curr.length() >= min) {
-                if (an) {
+                if (an && !rttiinfo) {
                     bool b = false;
                     for (int i = 0; i < curr.length(); i++) {
                         if (!isalnum(curr[i])) {
@@ -170,7 +178,11 @@ int main(int argn,char** argv)
                     }
                 }
                 if (rttiinfo) {
-                    if (_strnicmp(curr.c_str(), ".?A", 3)) {//.?AV = class, .?AU = struct
+                    if (curr.length() <= 5) {
+                        curr.clear();
+                        continue;
+                    }
+                    if (_strnicmp(curr.c_str() + 2, ".?A", 3)) {//.?AV = class, .?AU = struct
                         curr.clear();
                         continue;
                     }
