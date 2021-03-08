@@ -243,7 +243,6 @@ std::string try_again(const std::string& in) {
         return ret;
     }
     ret = repl(ret, "@V", "<");
-    ret = repl(ret, "@V", "<");
     ret = repl(ret, "@U", "<");
     ret = repl(ret, "@PE", "<");
     ret = repl(ret, "@@U?$", ",less");
